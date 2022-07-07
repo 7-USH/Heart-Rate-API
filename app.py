@@ -2,7 +2,6 @@ import json
 from flask import Flask, request
 import cv2
 import numpy as np
-from requests import request
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 
@@ -82,6 +81,7 @@ def get_beats_per_min():
     B = np.array([])
     
     query_result = request.args['query']
+
     print(query_result)
     # Create a video capture object and read
     video_data = cv2.VideoCapture('sample/ppgdata.mp4')
