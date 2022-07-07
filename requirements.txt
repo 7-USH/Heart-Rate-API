@@ -10,3 +10,4 @@ markupsafe==2.0.1
 itsdangerous==2.0.1
 werkzeug==2.0.0
 opencv-python-headless==4.6.0.66
+opencv-python==4.6.0.66
