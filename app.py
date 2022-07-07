@@ -80,7 +80,7 @@ def get_beats_per_min():
     G = np.array([])
     B = np.array([])
     
-    query_result = request.args['query']
+    query_result = str(request.args['query'])
 
     print(query_result)
     # Create a video capture object and read
