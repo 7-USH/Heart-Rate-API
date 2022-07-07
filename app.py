@@ -2,6 +2,7 @@ import json
 from flask import Flask
 import cv2
 import numpy as np
+from requests import request
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 
@@ -73,13 +74,15 @@ def give_bpm(r_averaged,time_bw_fram):
     return bpm
 
 
-@app.route('/')
+@app.route('/api', methods=['GET'])
 def get_beats_per_min():
 #declaring array for storing R,G,B values 
     R = np.array([])
     G = np.array([])
     B = np.array([])
     
+    query_result = request.args['query']
+    print(query_result)
     # Create a video capture object and read
     video_data = cv2.VideoCapture('sample/ppgdata.mp4')
     fps = video_data.get(cv2.CAP_PROP_FPS)
