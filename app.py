@@ -1,5 +1,5 @@
 import json
-from flask import Flask
+from flask import Flask, request
 import cv2
 import numpy as np
 from requests import request
