@@ -1,15 +1,11 @@
 import json
-import logging
 from flask import Flask
-import sys
 import cv2
 import numpy as np
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 
 app = Flask(__name__)
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
 
 
 class NumpyEncoder(json.JSONEncoder):

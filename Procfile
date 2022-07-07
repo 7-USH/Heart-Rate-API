@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT wapi:app
+web: gunicorn wapi:app
