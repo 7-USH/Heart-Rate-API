@@ -77,13 +77,13 @@ def give_bpm(r_averaged, time_bw_fram):
 @app.route('/api', methods=['GET'])
 def get_beats_per_min():
     # declaring array for storing R,G,B values
-
+    
     R = np.array([])
     G = np.array([])
     B = np.array([])
 
-    query_result = str(request.args['query'])
-    token_result = str(request.args['token'])
+    query_result = request.args['query']
+    token_result = request.args['token']
     complete_url = query_result+"&token="+token_result
 
     print(complete_url)
