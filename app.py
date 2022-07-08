@@ -81,7 +81,9 @@ def get_beats_per_min():
         if request.files:
 
             data = request.files
-            print(data.get('query'))
+            videoData = data.get('query')
+
+            print(videoData.read())
 
             return {
                 'success' : 200
