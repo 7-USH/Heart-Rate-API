@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import os
 from scipy.signal import butter, convolve, find_peaks, filtfilt
+from sympy import re
 
 app = Flask(__name__)
 
@@ -84,9 +85,13 @@ def get_beats_per_min():
     B = np.array([])
 
     query_result = str(request.args['query'])
+    token_result = str(request.args['token'])
+
+    print(query_result)
+    print(token_result)
 
     # Create a video capture object and read
-    video_data = cv2.VideoCapture(query_result)
+    video_data = cv2.VideoCapture(query_result+token_result)
     fps = video_data.get(cv2.CAP_PROP_FPS)
     frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
     vid_length = frame_count/fps
