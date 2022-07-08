@@ -79,8 +79,7 @@ def get_beats_per_min():
 
     if request.method == 'POST':
         if request.files:
-            return {"success":200}
-
+            return request.files
 
     else:
         R = np.array([])
