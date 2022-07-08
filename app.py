@@ -7,7 +7,6 @@ import os
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 app = Flask(__name__)
-app.config["IMAGE_UPLOAD"] = "D:/Machine Learning/Heart Rate Analyser/sample"
 
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
@@ -84,9 +83,7 @@ def get_beats_per_min():
 
             data = request.files
             videoData = data.get('query')
-            videoData.save(os.path.join(
-                app.config["IMAGE_UPLOAD"], "test.mp4"))
-            print("save")
+            print(videoData)
 
             return {
                 'success': 200
