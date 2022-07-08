@@ -8,6 +8,7 @@ from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 app = Flask(__name__)
 
+
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
 
@@ -77,19 +78,7 @@ def give_bpm(r_averaged, time_bw_fram):
 @app.route('/api', methods=['GET', 'POST'])
 def get_beats_per_min():
     # declaring array for storing R,G,B values
-
-    if request.method == 'POST':
-        if request.files:
-
-            data = request.files
-            videoData = data.get('query')
-            print(videoData)
-
-            return {
-                'success': 200
-            }
-
-    else:
+    
         R = np.array([])
         G = np.array([])
         B = np.array([])
@@ -98,7 +87,8 @@ def get_beats_per_min():
 
         print(query_result)
         # Create a video capture object and read
-        video_data = cv2.VideoCapture('sample/ppgdata.mp4')
+        video_data = cv2.VideoCapture(
+            "https://firebasestorage.googleapis.com/v0/b/heart-rate-monitor-cee6e.appspot.com/o/files%2Ftest.mp4?alt=media&token=452a68d7-8f7a-4f31-8ae8-c0d4d41b89ab.mp4")
         fps = video_data.get(cv2.CAP_PROP_FPS)
         frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
         vid_length = frame_count/fps
