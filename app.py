@@ -73,7 +73,7 @@ def give_bpm(r_averaged,time_bw_fram):
     return bpm
 
 
-@app.route('/api', methods=['POST'])
+@app.route('/api', methods=['GET'])
 def get_beats_per_min():
 #declaring array for storing R,G,B values 
     R = np.array([])
