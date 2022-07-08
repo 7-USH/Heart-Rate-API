@@ -83,9 +83,7 @@ def get_beats_per_min():
     B = np.array([])
 
     query_result = request.args['query']
-
-    print(query_result)
-
+    query_result = query_result.replace("files/test", "files%2Ftest")
     token_result = request.args['token']
     complete_url = query_result+"&token="+token_result
 
