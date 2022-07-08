@@ -73,86 +73,93 @@ def give_bpm(r_averaged,time_bw_fram):
     return bpm
 
 
-@app.route('/api', methods=['GET'])
+@app.route('/api', methods=['GET','POST'])
 def get_beats_per_min():
 #declaring array for storing R,G,B values 
-    R = np.array([])
-    G = np.array([])
-    B = np.array([])
-    
-    query_result = str(request.args['query'])
 
-    print(query_result)
-    # Create a video capture object and read
-    video_data = cv2.VideoCapture('sample/ppgdata.mp4')
-    fps = video_data.get(cv2.CAP_PROP_FPS)
-    frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
-    vid_length = frame_count/fps
-    time_bw_fram = 1/fps
+    if request.method == 'POST':
+        if request.files:
+            return {"success":200}
 
-    while True:
-        ret,frame=video_data.read()
 
-        if ret==False:
-            break
+    else:
+        R = np.array([])
+        G = np.array([])
+        B = np.array([])
         
-        no_of_pixels = 0
-        sumr = 0
-        sumg =0
-        sumb =0
+        query_result = str(request.args['query'])
 
-        #loop for pixels row, only pixels in mid are selected
-        for i in frame[int((len(frame)-100)/2) : int((len(frame)+100)/2)]:
-            #loop for pixel col, only pixels in mid are selected
-            for j in i[int((len(frame[0])-100)/2) : int((len(frame[0])+100)/2)]:
-                sumr = sumr+j[2]
-                sumg = sumg+j[1]
-                sumb = sumb+j[0]
-                no_of_pixels = no_of_pixels + 1
-        R = np.append(R,sumr/no_of_pixels)
-        G = np.append(G,sumg/no_of_pixels)
-        B = np.append(B,sumb/no_of_pixels)
+        print(query_result)
+        # Create a video capture object and read
+        video_data = cv2.VideoCapture('sample/ppgdata.mp4')
+        fps = video_data.get(cv2.CAP_PROP_FPS)
+        frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
+        vid_length = frame_count/fps
+        time_bw_fram = 1/fps
+
+        while True:
+            ret,frame=video_data.read()
+
+            if ret==False:
+                break
+            
+            no_of_pixels = 0
+            sumr = 0
+            sumg =0
+            sumb =0
+
+            #loop for pixels row, only pixels in mid are selected
+            for i in frame[int((len(frame)-100)/2) : int((len(frame)+100)/2)]:
+                #loop for pixel col, only pixels in mid are selected
+                for j in i[int((len(frame[0])-100)/2) : int((len(frame[0])+100)/2)]:
+                    sumr = sumr+j[2]
+                    sumg = sumg+j[1]
+                    sumb = sumb+j[0]
+                    no_of_pixels = no_of_pixels + 1
+            R = np.append(R,sumr/no_of_pixels)
+            G = np.append(G,sumg/no_of_pixels)
+            B = np.append(B,sumb/no_of_pixels)
 
 
-    # discarding first few frames and last few 
+        # discarding first few frames and last few 
 
-    R = R[100:-100]
-    G = G[100:-100]
-    B = B[100:-100]
+        R = R[100:-100]
+        G = G[100:-100]
+        B = B[100:-100]
 
-    # R value is choosen for further filtering,bandpassed,squared
-    # declaring filter variables
+        # R value is choosen for further filtering,bandpassed,squared
+        # declaring filter variables
 
-    r_cutoff_high = 10
-    r_cutoff_low = 100
-    r_order_of_bandpass = 5
-    r_sampling_rate = 8*int(fps+1)
-    r_average_filter_sample_length = 7
+        r_cutoff_high = 10
+        r_cutoff_low = 100
+        r_order_of_bandpass = 5
+        r_sampling_rate = 8*int(fps+1)
+        r_average_filter_sample_length = 7
 
 
-    r_averaged = process_signal(R,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
-    g_averaged = process_signal(G,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
-    b_averaged = process_signal(B,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
+        r_averaged = process_signal(R,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
+        g_averaged = process_signal(G,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
+        b_averaged = process_signal(B,r_order_of_bandpass,r_cutoff_high,r_cutoff_low,r_sampling_rate,r_average_filter_sample_length)
 
-    bpms = []
-    bpms.append(give_bpm(r_averaged,time_bw_fram))
-    bpms.append(give_bpm(g_averaged,time_bw_fram))
-    bpms.append(give_bpm(b_averaged,time_bw_fram))
+        bpms = []
+        bpms.append(give_bpm(r_averaged,time_bw_fram))
+        bpms.append(give_bpm(g_averaged,time_bw_fram))
+        bpms.append(give_bpm(b_averaged,time_bw_fram))
 
-    bpm = (bpms[0]+bpms[1]+bpms[2])/3
+        bpm = (bpms[0]+bpms[1]+bpms[2])/3
 
-    result = {
-        "r_avg" : r_averaged,
-        "g_avg" : g_averaged,
-        "b_avg" : b_averaged,
-        "r_bpm" : bpms[0],
-        "g_bpm" : bpms[1],
-        "b_bpm" : bpms[2],
-        "avg_bpm" : bpm
-    }
+        result = {
+            "r_avg" : r_averaged,
+            "g_avg" : g_averaged,
+            "b_avg" : b_averaged,
+            "r_bpm" : bpms[0],
+            "g_bpm" : bpms[1],
+            "b_bpm" : bpms[2],
+            "avg_bpm" : bpm
+        }
 
-    json_dump = json.dumps(result,cls=NumpyEncoder)
-    return json_dump
+        json_dump = json.dumps(result,cls=NumpyEncoder)
+        return json_dump
 
 if __name__ == "__main__":
     app.run()
