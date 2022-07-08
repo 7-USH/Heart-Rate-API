@@ -5,7 +5,6 @@ import cv2
 import numpy as np
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
-
 app = Flask(__name__)
 
 
@@ -81,7 +80,8 @@ def get_beats_per_min():
     if request.method == 'POST':
         if request.files:
 
-            print(request.files)
+            data = request.files
+            print(data.get('input'))
 
             return {
                 'success' : 200
