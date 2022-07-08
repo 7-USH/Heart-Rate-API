@@ -84,12 +84,12 @@ def get_beats_per_min():
 
     query_result = str(request.args['query'])
     token_result = str(request.args['token'])
+    complete_url = query_result+"&token="+token_result
 
-    print(query_result)
-    print(token_result)
+    print(complete_url)
 
     # Create a video capture object and read
-    video_data = cv2.VideoCapture(query_result+"&token="+token_result)
+    video_data = cv2.VideoCapture(complete_url)
     fps = video_data.get(cv2.CAP_PROP_FPS)
     frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
     vid_length = frame_count/fps
