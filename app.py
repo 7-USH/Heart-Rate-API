@@ -1,4 +1,5 @@
 import json
+from traceback import print_tb
 from flask import Flask, request
 import cv2
 import numpy as np
@@ -79,7 +80,12 @@ def get_beats_per_min():
 
     if request.method == 'POST':
         if request.files:
-            return request.files
+
+            print(request.files)
+
+            return {
+                'success' : 200
+            }
 
     else:
         R = np.array([])
