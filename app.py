@@ -81,10 +81,9 @@ def get_beats_per_min():
         if request.files:
 
             data = request.files
-            videoData = data.get('query')
-
-            print(videoData.read())
-
+            videoData = cv2.VideoCapture(data.get('query').read())
+            print(videoData.get(cv2.CAP_PROP_FPS))
+            
             return {
                 'success' : 200
             }
