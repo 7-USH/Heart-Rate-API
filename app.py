@@ -3,6 +3,7 @@ from traceback import print_tb
 from flask import Flask, request
 import cv2
 import numpy as np
+import os
 from scipy.signal import butter, convolve, find_peaks, filtfilt
 
 app = Flask(__name__)
@@ -81,9 +82,10 @@ def get_beats_per_min():
         if request.files:
 
             data = request.files
-            videoData = cv2.VideoCapture(data.get('query').read())
-            print(videoData.get(cv2.CAP_PROP_FPS))
-            
+            videoData = data.get('query')
+            videoData.save(os.path.join(app.config["IMAGE_UPLOAD"],"test.mp4"))
+            print("save")
+
             return {
                 'success' : 200
             }
