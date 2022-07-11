@@ -56,6 +56,7 @@ def process_signal(y, order_of_bandpass, high, low, sampling_rate, average_filte
 
 
 def give_bpm(r_averaged, time_bw_fram):
+    print(time_bw_fram)
     r_min_peak = min(r_averaged)+(max(r_averaged)-min(r_averaged))/16
     r_peaks = find_peaks(r_averaged, height=r_min_peak)
     print(r_peaks)
@@ -94,7 +95,9 @@ def get_beats_per_min():
     fps = video_data.get(cv2.CAP_PROP_FPS)
     frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
     vid_length = frame_count/fps
-    time_bw_fram = 1/fps
+    time_bw_frame = 1/fps
+    
+    print(time_bw_frame)
 
     while True:
         ret, frame = video_data.read()
@@ -142,9 +145,9 @@ def get_beats_per_min():
                                 r_cutoff_low, r_sampling_rate, r_average_filter_sample_length)
 
     bpms = []
-    bpms.append(give_bpm(r_averaged, time_bw_fram))
-    bpms.append(give_bpm(g_averaged, time_bw_fram))
-    bpms.append(give_bpm(b_averaged, time_bw_fram))
+    bpms.append(give_bpm(r_averaged, time_bw_frame))
+    bpms.append(give_bpm(g_averaged, time_bw_frame))
+    bpms.append(give_bpm(b_averaged, time_bw_frame))
 
     bpm = (bpms[0]+bpms[1]+bpms[2])/3
 
