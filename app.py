@@ -58,7 +58,7 @@ def process_signal(y, order_of_bandpass, high, low, sampling_rate, average_filte
 def give_bpm(r_averaged, time_bw_fram):
     r_min_peak = min(r_averaged)+(max(r_averaged)-min(r_averaged))/16
     r_peaks = find_peaks(r_averaged, height=r_min_peak)
-
+    print(r_peaks)
     diff_sum = 0
     total_peaks = len(r_peaks[0])
     i = 0
