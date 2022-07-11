@@ -32,8 +32,6 @@ https://heart-rate-07.herokuapp.com/api?query=video_url_link
 ## Example of API call
 
 ```
-APi call example
-
 https://heart-rate-07.herokuapp.com/api?query=https://firebasestorage.googleapis.com/v0/b/heart-rate-monitor-cee6e.appspot.com/o/files%2Ftest.mp4?alt=media&token=61d6c17c-4f85-4c32-b9a7-7ea0fd19400c
 ```
 
