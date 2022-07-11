@@ -56,10 +56,9 @@ def process_signal(y, order_of_bandpass, high, low, sampling_rate, average_filte
 
 
 def give_bpm(r_averaged, time_bw_fram):
-    print(time_bw_fram)
+    print("time_bw_ frames : "+time_bw_fram)
     r_min_peak = min(r_averaged)+(max(r_averaged)-min(r_averaged))/16
     r_peaks = find_peaks(r_averaged, height=r_min_peak)
-    print(r_peaks)
     diff_sum = 0
     total_peaks = len(r_peaks[0])
     i = 0
@@ -68,9 +67,10 @@ def give_bpm(r_averaged, time_bw_fram):
         diff_sum = diff_sum+r_peaks[0][i+1]-r_peaks[0][i]
         i = i+1
 
-    avg_diff = diff_sum/(total_peaks-1)
-    avg_time_bw_peaks = avg_diff*time_bw_fram
-    bpm = 60/avg_time_bw_peaks
+    avg_diff = float(diff_sum/(total_peaks-1))
+    avg_time_bw_peaks = float(avg_diff*time_bw_fram)
+    print( "avg_time_bw_peaks " + avg_time_bw_peaks)
+    bpm = float(60.0/avg_time_bw_peaks)
     print("Calculated heart rate "+str(bpm))
     return bpm
 
@@ -95,7 +95,7 @@ def get_beats_per_min():
     fps = video_data.get(cv2.CAP_PROP_FPS)
     frame_count = int(video_data.get(cv2.CAP_PROP_FRAME_COUNT))
     vid_length = frame_count/fps
-    time_bw_frame = 1/fps
+    time_bw_frame = 1.0/fps
     
     print(time_bw_frame)
 
