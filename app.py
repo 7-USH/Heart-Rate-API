@@ -1,5 +1,4 @@
 import json
-from traceback import print_tb
 from flask import Flask, request
 import cv2
 import numpy as np
@@ -68,6 +67,7 @@ def give_bpm(r_averaged, time_bw_fram):
         i = i+1
 
     avg_diff = float(diff_sum/(total_peaks-1))
+    print(avg_diff)
     avg_time_bw_peaks = float(avg_diff*time_bw_fram)
     print(avg_time_bw_peaks)
     bpm = float(60.0/avg_time_bw_peaks)
