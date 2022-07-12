@@ -1,6 +1,6 @@
 # Heart Rate API
 
-A simple API to estimate heart rate using PPG data from mobile camera.
+A simple API to estimate heart rate using PPG analysis data from mobile camera.
 
 ## Use 
 
